@@ -1556,8 +1556,10 @@ bool SiStripMonitorTrack::clusterInfos(SiStripClusterInfo* cluster,
       MEs.iSubdet->totNClustersOnTrack++;
     // layerMEs
     if (MEs.iLayer != nullptr) {
-      if (noise > 0.0)
+      if (noise > 0.0){
         fillME(MEs.iLayer->ClusterStoNCorrOnTrack, StoN * cosRZ);
+      if(StripSubdetector(detid).stereo() == 1)
+         fillME(MEs.iLayer->ClusterStoNStereoCorrOnTrack, StoN * cosRZ);}
       if (noise == 0.0)
         LogDebug("SiStripMonitorTrack") << "Module " << detid << " in Event " << eventNb << " noise "
                                         << cluster->noiseRescaledByGain() << std::endl;
@@ -1579,8 +1581,10 @@ bool SiStripMonitorTrack::clusterInfos(SiStripClusterInfo* cluster,
     }
     // ringMEs
     if (MEs.iRing != nullptr) {
-      if (noise > 0.0)
+      if (noise > 0.0){
         fillME(MEs.iRing->ClusterStoNCorrOnTrack, StoN * cosRZ);
+        if (StripSubdetector(detid).stereo() == 1)
+         fillME(MEs.iRing->ClusterStoNStereoCorrOnTrack, StoN * cosRZ);}
       if (noise == 0.0)
         LogDebug("SiStripMonitorTrack") << "Module " << detid << " in Event " << eventNb << " noise "
                                         << cluster->noiseRescaledByGain() << std::endl;
@@ -1601,8 +1605,10 @@ bool SiStripMonitorTrack::clusterInfos(SiStripClusterInfo* cluster,
       fillME(MEs.iSubdet->ClusterGain, clustergain);
       fillME(MEs.iSubdet->ClusterChargeOnTrack, charge);
       fillME(MEs.iSubdet->ClusterChargeRawOnTrack, chargeraw);
-      if (noise > 0.0)
+      if (noise > 0.0){
         fillME(MEs.iSubdet->ClusterStoNCorrOnTrack, StoN * cosRZ);
+        if (StripSubdetector(detid).stereo() == 1)
+         fillME(MEs.iSubdet->ClusterStoNStereoCorrOnTrack, StoN * cosRZ);}
       fillME(MEs.iSubdet->ClusterChargeCorrOnTrack, charge * cosRZ);
       if (track_ok)
         fillME(MEs.iSubdet->ClusterChargePerCMfromTrack, dQdx_fromTrack);

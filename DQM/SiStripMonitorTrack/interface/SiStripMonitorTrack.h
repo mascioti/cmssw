@@ -193,6 +193,7 @@ private:
   struct LayerMEs {
     MonitorElement* ClusterGain = nullptr;
     MonitorElement* ClusterStoNCorrOnTrack = nullptr;
+    MonitorElement* ClusterStoNStereoCorrOnTrack = nullptr;
     MonitorElement* ClusterChargeCorrOnTrack = nullptr;
     MonitorElement* ClusterChargeOnTrack = nullptr;
     MonitorElement* ClusterChargeOffTrack = nullptr;
@@ -212,6 +213,7 @@ private:
   struct RingMEs {
     MonitorElement* ClusterGain = nullptr;
     MonitorElement* ClusterStoNCorrOnTrack = nullptr;
+    MonitorElement* ClusterStoNStereoCorrOnTrack = nullptr;
     MonitorElement* ClusterChargeCorrOnTrack = nullptr;
     MonitorElement* ClusterChargeOnTrack = nullptr;
     MonitorElement* ClusterChargeOffTrack = nullptr;
@@ -237,6 +239,7 @@ private:
     MonitorElement* nClustersTrendOffTrack = nullptr;
     MonitorElement* ClusterGain = nullptr;
     MonitorElement* ClusterStoNCorrOnTrack = nullptr;
+    MonitorElement* ClusterStoNStereoCorrOnTrack = nullptr;
     MonitorElement* ClusterStoNCorrThinOnTrack = nullptr;
     MonitorElement* ClusterStoNCorrThickOnTrack = nullptr;
     MonitorElement* ClusterChargeCorrOnTrack = nullptr;
