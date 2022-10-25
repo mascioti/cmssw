@@ -475,6 +475,11 @@ void SiStripMonitorTrack::bookLayerMEs(DQMStore::IBooker& ibooker, const uint32_
   hpar = "TH1ClusterStoNCorr";
   theLayerMEs.ClusterStoNCorrOnTrack = handleBookMEs(ibooker, view, layer_id, hpar, hname);
 
+  // Signal/Noise Stereo (w/ cluster harge corrected)
+  hname = hidmanager.createHistoLayer("Summary_ClusterStoNStereoCorr", name, layer_id, "OnTrack");
+  hpar = "TH1ClusterStoNCorr";
+  theLayerMEs.ClusterStoNStereoCorrOnTrack = handleBookMEs(ibooker, view, layer_id, hpar, hname);
+
   // Cluster Gain
   hname = hidmanager.createHistoLayer("Summary_ClusterGain", name, layer_id, "");
   hpar = "TH1ClusterGain";
@@ -608,6 +613,10 @@ void SiStripMonitorTrack::bookRingMEs(DQMStore::IBooker& ibooker, const uint32_t
   hpar = "TH1ClusterStoNCorr";
   theRingMEs.ClusterStoNCorrOnTrack = handleBookMEs(ibooker, view, ring_id, hpar, hname);
 
+  hname = hidmanager.createHistoLayer("Summary_ClusterStoNStereoCorr", name, ring_id, "OnTrack");
+  hpar = "TH1ClusterStoNCorr";
+  theRingMEs.ClusterStoNStereoCorrOnTrack = handleBookMEs(ibooker, view, ring_id, hpar, hname);
+
   // Cluster Gain
   hname = hidmanager.createHistoLayer("Summary_ClusterGain", name, ring_id, "");
   hpar = "TH1ClusterGain";
@@ -737,6 +746,9 @@ void SiStripMonitorTrack::bookSubDetMEs(DQMStore::IBooker& ibooker, std::string&
   // Cluster StoN On Track
   completeName = "Summary_ClusterStoNCorr_OnTrack" + subdet_tag;
   theSubDetMEs.ClusterStoNCorrOnTrack = bookME1D(ibooker, "TH1ClusterStoNCorr", completeName.c_str());
+
+  completeName = "Summary_ClusterStoNStereoCorr_OnTrack" + subdet_tag;
+  theSubDetMEs.ClusterStoNStereoCorrOnTrack = bookME1D(ibooker, "TH1ClusterStoNCorr", completeName.c_str());
 
   completeName = "Summary_ClusterStoNCorrThin_OnTrack" + subdet_tag;
   if (subdet_tag.find("TEC") != std::string::npos)
@@ -1556,10 +1568,11 @@ bool SiStripMonitorTrack::clusterInfos(SiStripClusterInfo* cluster,
       MEs.iSubdet->totNClustersOnTrack++;
     // layerMEs
     if (MEs.iLayer != nullptr) {
-      if (noise > 0.0){
+      if (noise > 0.0) {
         fillME(MEs.iLayer->ClusterStoNCorrOnTrack, StoN * cosRZ);
-      if(StripSubdetector(detid).stereo() == 1)
-         fillME(MEs.iLayer->ClusterStoNStereoCorrOnTrack, StoN * cosRZ);}
+        if (StripSubdetector(detid).stereo() == 1)
+          fillME(MEs.iLayer->ClusterStoNStereoCorrOnTrack, StoN * cosRZ);
+      }
       if (noise == 0.0)
         LogDebug("SiStripMonitorTrack") << "Module " << detid << " in Event " << eventNb << " noise "
                                         << cluster->noiseRescaledByGain() << std::endl;
@@ -1581,10 +1594,11 @@ bool SiStripMonitorTrack::clusterInfos(SiStripClusterInfo* cluster,
     }
     // ringMEs
     if (MEs.iRing != nullptr) {
-      if (noise > 0.0){
+      if (noise > 0.0) {
         fillME(MEs.iRing->ClusterStoNCorrOnTrack, StoN * cosRZ);
         if (StripSubdetector(detid).stereo() == 1)
-         fillME(MEs.iRing->ClusterStoNStereoCorrOnTrack, StoN * cosRZ);}
+          fillME(MEs.iRing->ClusterStoNStereoCorrOnTrack, StoN * cosRZ);
+      }
       if (noise == 0.0)
         LogDebug("SiStripMonitorTrack") << "Module " << detid << " in Event " << eventNb << " noise "
                                         << cluster->noiseRescaledByGain() << std::endl;
@@ -1605,10 +1619,11 @@ bool SiStripMonitorTrack::clusterInfos(SiStripClusterInfo* cluster,
       fillME(MEs.iSubdet->ClusterGain, clustergain);
       fillME(MEs.iSubdet->ClusterChargeOnTrack, charge);
       fillME(MEs.iSubdet->ClusterChargeRawOnTrack, chargeraw);
-      if (noise > 0.0){
+      if (noise > 0.0) {
         fillME(MEs.iSubdet->ClusterStoNCorrOnTrack, StoN * cosRZ);
         if (StripSubdetector(detid).stereo() == 1)
-         fillME(MEs.iSubdet->ClusterStoNStereoCorrOnTrack, StoN * cosRZ);}
+          fillME(MEs.iSubdet->ClusterStoNStereoCorrOnTrack, StoN * cosRZ);
+      }
       fillME(MEs.iSubdet->ClusterChargeCorrOnTrack, charge * cosRZ);
       if (track_ok)
         fillME(MEs.iSubdet->ClusterChargePerCMfromTrack, dQdx_fromTrack);
