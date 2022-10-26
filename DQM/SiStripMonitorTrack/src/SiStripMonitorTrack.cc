@@ -146,6 +146,13 @@ void SiStripMonitorTrack::analyze(const edm::Event& e, const edm::EventSetup& iS
       if (subdet_mes.totNClustersOnTrack > 0) {
         fillME(subdet_mes.nClustersOnTrack, subdet_mes.totNClustersOnTrack);
       }
+      if (subdet_mes.totNClustersOnTrackMono > 0) {
+        fillME(subdet_mes.nClustersOnTrackMono, subdet_mes.totNClustersOnTrackMono);
+      }
+      if (subdet_mes.totNClustersOnTrackStereo > 0) {
+        fillME(subdet_mes.nClustersOnTrackStereo, subdet_mes.totNClustersOnTrackStereo);
+      }
+
       fillME(subdet_mes.nClustersOffTrack, subdet_mes.totNClustersOffTrack);
       fillME(subdet_mes.nClustersTrendOnTrack, iLumisection, subdet_mes.totNClustersOnTrack);
       fillME(subdet_mes.nClustersTrendOffTrack, iLumisection, subdet_mes.totNClustersOffTrack);
@@ -156,6 +163,13 @@ void SiStripMonitorTrack::analyze(const edm::Event& e, const edm::EventSetup& iS
       if (subdet_mes.totNClustersOnTrack > 0) {
         fillME(subdet_mes.nClustersOnTrack, subdet_mes.totNClustersOnTrack);
       }
+      if (subdet_mes.totNClustersOnTrackMono > 0) {
+        fillME(subdet_mes.nClustersOnTrackMono, subdet_mes.totNClustersOnTrackMono);
+      }
+      if (subdet_mes.totNClustersOnTrackStereo > 0) {
+        fillME(subdet_mes.nClustersOnTrackStereo, subdet_mes.totNClustersOnTrackStereo);
+      }
+
       fillME(subdet_mes.nClustersOffTrack, subdet_mes.totNClustersOffTrack);
     }
   }
@@ -1564,8 +1578,14 @@ bool SiStripMonitorTrack::clusterInfos(SiStripClusterInfo* cluster,
   }
 
   if (flag == OnTrack) {
-    if (MEs.iSubdet != nullptr)
+    if (MEs.iSubdet != nullptr) {
       MEs.iSubdet->totNClustersOnTrack++;
+      if (StripSubdetector(detid).stereo() == 1)
+        MEs.iSubdet->totNClustersOnTrackStereo++;
+      else
+        MEs.iSubdet->totNClustersOnTrackMono++;
+    }
+
     // layerMEs
     if (MEs.iLayer != nullptr) {
       if (noise > 0.0) {

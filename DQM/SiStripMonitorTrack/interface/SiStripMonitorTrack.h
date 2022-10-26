@@ -232,8 +232,12 @@ private:
   };
   struct SubDetMEs {
     int totNClustersOnTrack = 0;
+    int totNClustersOnTrackMono = 0;
+    int totNClustersOnTrackStereo = 0;
     int totNClustersOffTrack = 0;
     MonitorElement* nClustersOnTrack = nullptr;
+    MonitorElement* nClustersOnTrackMono = nullptr;
+    MonitorElement* nClustersOnTrackStereo = nullptr;
     MonitorElement* nClustersTrendOnTrack = nullptr;
     MonitorElement* nClustersOffTrack = nullptr;
     MonitorElement* nClustersTrendOffTrack = nullptr;
